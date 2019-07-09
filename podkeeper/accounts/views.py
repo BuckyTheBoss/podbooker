@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from . models import User
+from . models import CustomUser
 # Create your views here.
 
 def signup_error(request, message=None):
@@ -29,13 +29,13 @@ def signup(request):
     # password validation
     password = request.POST.get('password')
     try: 
-      validate_password(password, user=User)
+      validate_password(password, user=CustomUser)
     except:
       return signup_error(request=request, message='Password did not meet minimum security requirements.')
 
     # username validation
     username = request.POST.get('email')
-    if User.objects.filter(username=username).exists():
+    if CustomUser.objects.filter(username=username).exists():
       return signup_error(request=request, message='This email address is already taken.')
 
     # name validation
@@ -47,19 +47,39 @@ def signup(request):
       return signup_error(request=request, message='Please enter a last name.')
 
     # user member creation
-    user = User.objects.create_user(
+    user = CustomUser.objects.create_user(
       first_name=first_name,
       last_name=last_name,
       username=username,
       email=username,
       password=password
     )
-
+    user.save()
     if authenticate(username=username, password=password) is None:
       return signup_error(request=request)
+    account_type = request.POST.get('account_type')
+    if account_type == 'host':
+      profile = user.hostprofile
+      profile.signedup = True
+      profile.save()
+    
+    elif account_type == 'guest':
+      profile = user.guestprofile
+      profile.signedup = True
+      profile.save()
+    
+    elif account_type == 'both':
+      profile1 = user.hostprofile
+      profile1.signedup = True
+      profile1.save()
+      profile2 = user.guestprofile
+      profile2.signedup = True
+      profile2.save()
 
-
-    login(request, user)
+    else:
+      return signup_error(request=request)
+    
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     # send_confirmation_email(request, user)
     return redirect('signup_confirm')
 
@@ -94,4 +114,4 @@ def logout_view(request):
   return redirect('login')
 
 def success(request):
-	return render(request, 'login_success.html')
+  return render(request, 'login_success.html')

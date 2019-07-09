@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}Ambassadors{% endblock %}
+{% block content %}
+  {% block localaddons %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    {% endblock %}
+    {% include "navbar.html" %}
+    <div class="profile-settings-page">
+        {% if messages %}
+                {% for message in messages %}
+                  <li {% if message.tags %} class="list-group-item {{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+              {% endif %}
+      <div class="row">
+        <div class="col-2">
+          {% include "app-sidebar.html" with tab='profile' %}
+        </div>
+        <div class="col-10 mt-3 pl-4 pr-5">
+          <div class="row mt-5 mb-3   border-bottom">
+            <h5>Account settings</h5>
+          </div>
+          <div class="row mt-4">
+            <div class="col-2 photo-column text-center">
+              <div class="m-0 text-center d-flex justify-content-center">
+                <div class="d-block" >
+                  <div class="bg-primary text-white rounded-circle d-block"><p class="display-4 pb-3 pt-2">{{ user.first_name|first }}</p></div>
+                  <div class="mt-n4">
+                    <!-- <label class=" btn btn-sm btn-secondary rounded-pill text-white border-white w-75"><i class="material-icons md-36" >camera_alt</i></label> -->
+                    <p class="small text-secondary mt-3" style="color: transparent !important;">Upload an image</p>
+                  </div>
+                </div>
+              </div>
+              
+              
+            </div>
+            <div class="col-10">
+              <div class="row">
+                <form method="post">
+                  {% csrf_token %}
+                  
+                  <div class="form-group">
+                    <label for="full_name">Full Name</label>
+                    <input type="text" name="full_name" class="form-control" id="full_name" value="{{user.first_name}} {{user.last_name}}">
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="team_name">Company Name</label>
+                      <input type="text" name="team_name" class="form-control" id="team_name" value="{{user.team_member.team.name}}">
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="phone_number">Phone Number</label>
+                      <input type="text" name="phone_number" class="form-control" id="phone_number" value="{{user.team_member.phone_number}}">
+                    </div>
+                  </div>
+                  
+                  <div class="row change-password mt-5">
+                    <div class="col-1 text-primary">
+                      <i class="material-icons">lock</i>
+                    </div>
+                    <div class="col-11">
+                      <div class="border-bottom">
+                        <h5 class="pb-2">Change Password</h5>
+                      </div>
+                      <p class="text-secondary pt-2 pb-2">Update your password to keep your account safe and secure</p>
+                      <div class="form-group">
+                        
+                        <input type="password" name="password" class="form-control" id="currentPassword" placeholder="Current Password">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" name="new_password" class="form-control" id="newPassword" placeholder="New Password">
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button class="btn btn-secondary btn-md float-right pl-5 pr-5 text-white">Update</button>
+                  </div>
+                  <div class="row cancel-account mt-5">
+                    <div class="col-1 text-primary">
+                      <i class="material-icons"> close</i>
+                    </div>
+                    <div class="col-11">
+                      <div class="border-bottom">
+                        <h5 class="pb-2">Cancel account</h5>
+                      </div>
+                      <div class="row">
+                        <p class="col-7 small mt-3 text-secondary">We will be sad to see you go! Please leave us some feedback as we strive to improve our service and product.</p>
+                        <div class="col-5">
+                          <button class="btn btn-secondary text-white mt-3 float-right">Cancel Account</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}

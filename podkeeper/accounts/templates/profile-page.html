@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}{{ ambassador.first_name }} {{ ambassador.last_name }}{% endblock %}
+{% block content %}
+{% include "navbar.html" %}
+{% load humanize %}
+
+<div class="profile-page" id="profile-app" data-user-id="{{ user.id }}">
+  {% include "app-sidebar.html" with tab='board' %}
+  <div class="row">
+    <div class="col-2 profile-col pt-3">
+      <div class="col-container">
+        <div class="img-wrapper mt-3 mx-auto">
+          <img src="{ user.photo_url }" alt="user image">
+        </div>
+        <h5 class="font-weight-light text-center mt-4">{{ user.first_name|title }} {{ user.last_name|title }}</h5>
+        <h6 class="font-weight-light text-center mt-4 text-secondary">{{ user.email }}</h6>
+
+        <div class="row mt-4 pl-3 pr-3">
+          <div class="col-3">
+            <h5>
+              <a href="https://instagram.com/{user.instagram.handle}" target="_blank" class="text-secondary">
+                <i class="instagramicon text-center"></i>
+              </a>
+            </h5>
+          </div>
+
+          <div class="col-3">
+            <h5>
+              <a target="_blank" class="text-secondary disabled-link">
+                <i class="twittericon text-center"></i>
+              </a>
+            </h5>
+          </div>
+
+          <div class="col-3">
+            <h5>
+              <a target="_blank" class="text-secondary disabled-link">
+                <i class="field-youtubeicon text-center"></i>
+              </a>
+            </h5>
+          </div>
+
+          <div class="col-3">
+            <h5>
+              <a target="_blank" class="text-secondary disabled-link">
+                <i class="facebookicon text-center"></i>
+              </a>
+            </h5>
+          </div>
+        </div>
+
+        <h5 class="mt-4 pb-2 text-center">
+          <span class="badge badge-pill badge-primary font-weight-light pt-2 pb-2 pl-5 pr-5">{{ ambassador.status|title }}</span>
+        </h5>
+
+        <div class="mx-auto mt-3 border-top pt-3">
+          <p class="text-muted m-0">Instagram verified</p>
+
+            <span class="badge badge-pill badge-success pt-1 pb-1 pl-4 pr-4">Yes</span>
+
+        </div>
+
+        <div class="mx-auto mt-3 border-top pt-3">
+          <p class="text-muted m-0">Applied on</p>
+          <p>{{ user.date_joined|date:"F d, Y" }}</p>
+        </div>
+
+        <div class="mx-auto mt-3 border-top pt-3">
+          <p class="text-muted m-0">Profile Description</p>
+          <small class="font-weight-light">{ user.instagram.description }</small>
+        </div>
+
+        <div class=" border-top pt-3">
+          
+        </div>
+      </div>
+    </div>
+
+
+    <div class="col-10">
+      <div class="row pt-4 pb-1 ml-3 mr-3 border-bottom">
+        <div class="col-12">
+          <h5 class="text-muted font-weight-light">
+            {{ user.first_name|title }}'s Stats
+          </h5>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-3 border-right">
+              <h4 class="font-weight-light text-primary">{ user.instagram.audit.follower_count }</h4>
+              <h6 class="font-weight-light">Instagram followers</h6>
+            </div>
+
+            <div class="col-3 border-right">
+              <h6 class="font-weight-light text-primary">
+                  <span class="badge badge-pill badge-success p-2">Very High</span><br>
+         
+              </h6>
+              <h6 class="font-weight-light">Engagement rate</h6>
+            </div>
+
+            <div class="col-3 border-right">
+              <h4 class="font-weight-light text-primary">{ user.instagram.audit.average_likes|floatformat:"0"|intcomma }</h4>
+              <h6 class="font-weight-light">Avg. likes per post</h6>
+            </div>
+
+            <div class="col-3">
+              <h4 class="font-weight-light text-primary">{ user.instagram.audit.average_comments|floatformat:"0"|intcomma }</h4>
+              <h6 class="font-weight-light">Avg. comments per post</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row p-3">
+        <div class="col-12">
+          <div class="row">
+            <div class="col-3 border-right">
+              
+              <h6 class="font-weight-light">Real followers score</h6>
+            </div>
+
+            <div class="col-3 border-right">
+              
+              <h6 class="font-weight-light">Followers primary country</h6>
+            </div>
+
+            <div class="col-3 border-right">
+              <h4 class="font-weight-light text-primary">{ user.instagram.audit.following_count|intcomma }</h4>
+              <h6 class="font-weight-light">Follows</h6>
+            </div>
+
+            <div class="col-3">
+              <h4 class="font-weight-light text-primary">{ user.instagram.audit.media_posts|intcomma }</h4>
+              <h6 class="font-weight-light">Number of posts</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}
