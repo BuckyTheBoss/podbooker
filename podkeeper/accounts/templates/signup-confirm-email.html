@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Signup{% endblock %}
+{% block content %}
+
+<div class="signup-page">
+  <div class="row">
+
+    <div class="col-5 offset-2">
+      <div class="jumbotron transparent d-flex align-items-center">
+        <div class="container">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="font-weight-bold">Please confirm your email address</h2>
+              <p>We've just sent you an email to confirm address.</p>
+              <p>Please click the link there to get started.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4 offset-1">
+      {% include "partials/signup-sales-points.html" %}
+    </div>
+  </div>
+</div>
+{% endblock %}

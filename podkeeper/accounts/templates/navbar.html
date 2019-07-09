@@ -1,0 +1,45 @@
+{% block navbar %}
+
+<nav class="app-nav navbar navbar-dark bg-dark p-2 pl-3 pr-3">
+  <a class="navbar-brand" href="#">PodKeeper</a>
+
+  {% if user.is_authenticated %}
+    <div class="menu-button" tabindex="0" class="popover-icon" data-popover-content="#popover-content" data-toggle="popover" data-placement="bottom">
+      <div class="profile-circle mr-1">{{ user.first_name|first }}</div>
+      <span class="text-white">{{ user.first_name|capfirst }}</span>
+    </div>
+  {% endif %}
+</nav>
+
+
+<div class="popover-block-container">
+  <div id="popover-content" style="display:none;">
+    <div class="popover-body">
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item">
+          <a href="#" class="stretched-link text-dark text-decoration-none">Account settings</a>
+        </li>
+        <li class="list-group-item">
+          <a href="#" class="stretched-link text-dark text-decoration-none">Support</a>
+        </li>
+        <li class="list-group-item">
+          <a href="#" class="stretched-link text-dark text-decoration-none">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+$('[data-toggle=popover]').popover({
+  html : true,
+  trigger: 'focus',
+  content: function() {
+    var content = $(this).attr('data-popover-content');
+    return $(content).children('.popover-body').html();
+  }
+});
+</script>
+
+{% endblock %}
