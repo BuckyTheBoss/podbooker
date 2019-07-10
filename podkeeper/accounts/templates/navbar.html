@@ -5,8 +5,8 @@
 
   {% if user.is_authenticated %}
     <div class="menu-button" tabindex="0" class="popover-icon" data-popover-content="#popover-content" data-toggle="popover" data-placement="bottom">
-      <div class="profile-circle mr-1">{{ user.first_name|first }}</div>
-      <span class="text-white">{{ user.first_name|capfirst }}</span>
+      <div class="rounded-circle bg-info px-2 text-white">{{ user.first_name|first|capfirst }}</div>
+      
     </div>
   {% endif %}
 </nav>

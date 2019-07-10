@@ -26,6 +26,9 @@ class HostProfile(models.Model):
   signedup = models.BooleanField(default=False)
   rating = models.CharField(blank=True, default=None, max_length=6, null=True)
 
+class Category(models.Model):
+  value = models.CharField(blank=True, default=None, max_length=20, null=True)
+  listen_note_id = models.IntegerField(blank=True, default=None)
 
 
 @receiver(post_save, sender=CustomUser)

@@ -113,5 +113,5 @@ def logout_view(request):
   logout(request)
   return redirect('login')
 
-def success(request):
-  return render(request, 'login_success.html')
+def success(request, profile_tab='host'):
+  return render(request, 'profile-page.html', {'profile_tab' : profile_tab})

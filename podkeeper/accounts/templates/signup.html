@@ -43,24 +43,23 @@
                     <input type="password" name="password" class="form-control form-control-lg" placeholder="Password">
                   </div>
                   <label>Account type: </label>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="account_type" id="host" value="host" >
-                    <label class="form-check-label" for="host">Host</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="account_type" id="guest" value="guest">
-                    <label class="form-check-label" for="guest">Guest</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="account_type" id="both" value="both">
-                    <label class="form-check-label" for="both">Both</label>
-                  </div>
+                    <label class="radio-inline">
+                      <input type="radio" name="account_type" id="host" value="host"> Host
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="account_type" id="guest" value="guest"> Guest
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="account_type" id="both" value="both"> Both
+                    </label>   
+         
+
                   <div class="form-group pt-2">
                     <div class="form-group row">
                       <div class="col-12 text-center alert">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" name="privacy_policy">
-                          <label class="form-check-label">
+                        <div class="checkbox">
+                          <label>
+                          <input  type="checkbox" name="privacy_policy">
                             I agree to the <u><a class="text-secondary" href="#">Privacy Policy</a></u> and <u><a class="text-secondary" href="#">Terms of Service</a></u>
                           </label>
                         </div>

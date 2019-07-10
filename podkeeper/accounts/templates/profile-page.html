@@ -1,151 +1,216 @@
 {% extends "base.html" %}
 {% block title %}{{ ambassador.first_name }} {{ ambassador.last_name }}{% endblock %}
 {% block content %}
-{% include "navbar.html" %}
-{% load humanize %}
-
-<div class="profile-page" id="profile-app" data-user-id="{{ user.id }}">
-  {% include "app-sidebar.html" with tab='board' %}
-  <div class="row">
-    <div class="col-2 profile-col pt-3">
-      <div class="col-container">
-        <div class="img-wrapper mt-3 mx-auto">
-          <img src="{ user.photo_url }" alt="user image">
-        </div>
-        <h5 class="font-weight-light text-center mt-4">{{ user.first_name|title }} {{ user.last_name|title }}</h5>
-        <h6 class="font-weight-light text-center mt-4 text-secondary">{{ user.email }}</h6>
-
-        <div class="row mt-4 pl-3 pr-3">
-          <div class="col-3">
-            <h5>
-              <a href="https://instagram.com/{user.instagram.handle}" target="_blank" class="text-secondary">
-                <i class="instagramicon text-center"></i>
-              </a>
-            </h5>
+  {% include "navbar.html" %}
+  <div class="row mt-1">
+    <div class="col-1">
+      {% include "app-sidebar.html" with tab='board' %}
+    </div>
+    <div class="col-11">
+      <div class="row">
+        <div class="col-2 justify-content-center mt-5">
+          <div class="text-center">
+            <img class="rounded-circle img-fluid border w-50 h-50 " src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png">
           </div>
-
-          <div class="col-3">
-            <h5>
-              <a target="_blank" class="text-secondary disabled-link">
-                <i class="twittericon text-center"></i>
-              </a>
-            </h5>
-          </div>
-
-          <div class="col-3">
-            <h5>
-              <a target="_blank" class="text-secondary disabled-link">
-                <i class="field-youtubeicon text-center"></i>
-              </a>
-            </h5>
-          </div>
-
-          <div class="col-3">
-            <h5>
-              <a target="_blank" class="text-secondary disabled-link">
-                <i class="facebookicon text-center"></i>
-              </a>
-            </h5>
+          <p class="medium">Name: {{user.first_name}}</p>
+          <p class="medium">Title: Importer of Foreign Jokes</p>
+          <p class="medium">Business: Acme Inc</p>
+          <p class="medium">Website: acme.inc</p>
+          <div class="social-links d-flex justify-content-between w-75">
+            <i class="fab fa-facebook fa-lg"></i>
+            <i class="fab fa-linkedin-in fa-lg"></i>
+            <i class="fab fa-twitter fa-lg"></i>
+            <i class="fab fa-youtube fa-lg"></i>
+            <i class="fab fa-instagram fa-lg"></i>
           </div>
         </div>
+        <div class="col-9 card" style="overflow-y: auto; height: 93vh;">
+          <div class="sticky-top bg-light border-bottom border-light rounded">
+            
+          <ul class="nav nav-tabs bg-purple mt-2" style="">
+            <li class="nav-item">
+              <a class="nav-link {% if profile_tab == 'host' %} active{% endif %}" href="#host" data-toggle="tab">My Podcast</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if profile_tab == 'guest' %} active {% endif %}" href="#guest" data-toggle="tab">My Profile</a>
+            </li>
+          </ul>
+          <!-- button row -->
+          <div class="row mt-3">
+            <div class=" contact-host-buttons ml-3">
+              <button class="btn btn-primary btn-raised">Pitch to this Host</button>
+              <button class="btn btn-secondary btn-raised">Message Host</button>
+              <button class="btn btn-info btn-raised">Set up a swap</button>
+            </div>
+          </div>
+          <!-- end button row -->
+        
+          </div>
 
-        <h5 class="mt-4 pb-2 text-center">
-          <span class="badge badge-pill badge-primary font-weight-light pt-2 pb-2 pl-5 pr-5">{{ ambassador.status|title }}</span>
-        </h5>
-
-        <div class="mx-auto mt-3 border-top pt-3">
-          <p class="text-muted m-0">Instagram verified</p>
-
-            <span class="badge badge-pill badge-success pt-1 pb-1 pl-4 pr-4">Yes</span>
-
-        </div>
-
-        <div class="mx-auto mt-3 border-top pt-3">
-          <p class="text-muted m-0">Applied on</p>
-          <p>{{ user.date_joined|date:"F d, Y" }}</p>
-        </div>
-
-        <div class="mx-auto mt-3 border-top pt-3">
-          <p class="text-muted m-0">Profile Description</p>
-          <small class="font-weight-light">{ user.instagram.description }</small>
-        </div>
-
-        <div class=" border-top pt-3">
+        <div class="tab-content">
+          <div class="tab-pane {% if profile_tab == 'host' %} active{% endif %}" id="host" role="tabpanel" aria-labelledby="host-tab">
           
-        </div>
-      </div>
-    </div>
-
-
-    <div class="col-10">
-      <div class="row pt-4 pb-1 ml-3 mr-3 border-bottom">
-        <div class="col-12">
-          <h5 class="text-muted font-weight-light">
-            {{ user.first_name|title }}'s Stats
-          </h5>
-        </div>
-      </div>
-
-      <div class="row p-3">
-        <div class="col-12">
-          <div class="row">
-            <div class="col-3 border-right">
-              <h4 class="font-weight-light text-primary">{ user.instagram.audit.follower_count }</h4>
-              <h6 class="font-weight-light">Instagram followers</h6>
+          <!-- podcast basic details row -->
+          <h4 class="mt-3">Podcast Details</h4>
+          <div class="row mt-3">
+            <div class="col-2">
+              <img class="img-fluid" src="https://i0.wp.com/www.moviehousememories.com/wp-content/uploads/2019/05/Scott-Pilgrim-vs-the-World-2010.jpg?resize=1024%2C576&ssl=1">
             </div>
-
-            <div class="col-3 border-right">
-              <h6 class="font-weight-light text-primary">
-                  <span class="badge badge-pill badge-success p-2">Very High</span><br>
-         
-              </h6>
-              <h6 class="font-weight-light">Engagement rate</h6>
-            </div>
-
-            <div class="col-3 border-right">
-              <h4 class="font-weight-light text-primary">{ user.instagram.audit.average_likes|floatformat:"0"|intcomma }</h4>
-              <h6 class="font-weight-light">Avg. likes per post</h6>
-            </div>
-
-            <div class="col-3">
-              <h4 class="font-weight-light text-primary">{ user.instagram.audit.average_comments|floatformat:"0"|intcomma }</h4>
-              <h6 class="font-weight-light">Avg. comments per post</h6>
+            <div class="col-10">
+              <h5>Talking through the X's</h5>
+              <p>Talking through the epic tale of Scott Pilgrim as he battles Ramonas ex's, one by one. delve into the fantastic movie and comic book alongside our rotating weekly guest.</p>
+              
             </div>
           </div>
-        </div>
-      </div>
-
-      <div class="row p-3">
-        <div class="col-12">
-          <div class="row">
-            <div class="col-3 border-right">
+          <!-- end podcast basic details row -->
+          <!-- podcast categories row -->
+          <h4 class="mt-3">Podcast Categories</h4>
+          <div class="row mt-1 mb-3">
+            <div class="col-12">
+              <span class="badge badge-pill badge-primary p-2">Business</span>
+              <span class="badge badge-pill badge-primary p-2">Freight</span>
+              <span class="badge badge-pill badge-primary p-2">Comedy</span>
               
-              <h6 class="font-weight-light">Real followers score</h6>
-            </div>
-
-            <div class="col-3 border-right">
-              
-              <h6 class="font-weight-light">Followers primary country</h6>
-            </div>
-
-            <div class="col-3 border-right">
-              <h4 class="font-weight-light text-primary">{ user.instagram.audit.following_count|intcomma }</h4>
-              <h6 class="font-weight-light">Follows</h6>
-            </div>
-
-            <div class="col-3">
-              <h4 class="font-weight-light text-primary">{ user.instagram.audit.media_posts|intcomma }</h4>
-              <h6 class="font-weight-light">Number of posts</h6>
             </div>
           </div>
+          <!-- end podcast categories row -->
+          <!-- Notable Guests row -->
+          <h4>Notable Guests</h4>
+          <div class="row" >
+            <div class="col">
+            
+              <span class="badge badge-pill badge-dark p-2">Scott Pilgrim</span>
+              <span class="badge badge-pill badge-dark p-2">Scott Pilgrim</span>
+              <span class="badge badge-pill badge-dark p-2">Scott Pilgrim</span>
+            </div>
+          </div>
+          <!-- end Notable Guests row -->
+          <!-- ideal guest row -->
+          <h4 class="mt-3">My Ideal Guest</h4>
+          <p>Math-wristwatch garage concrete vinyl systemic numinous city cardboard systema sentient sub-orbital physical digital nano-tower-ware. 8-bit sentient carbon fluidity wristwatch denim franchise footage grenade meta-dome concrete. DIY shoes vehicle military-grade drugs rifle digital crypto-camera shanty town dissident. Chrome pistol nano-jeans A.I. spook modem construct San Francisco systemic. </p>
+          <!-- end ideal guest row -->
+          
+          <!-- recent episodes row -->
+          <h4>Latest Episodes</h4>
+          <div class="container border " style="height: 15rem;  overflow-y: auto;">
+            <div class="row">
+              
+              
+              <div class="card mt-3 mx-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-2 text-center ">
+                      <img src="https://i0.wp.com/www.moviehousememories.com/wp-content/uploads/2019/05/Scott-Pilgrim-vs-the-World-2010.jpg?resize=1024%2C576&ssl=1" class=" rounded-circle" style="height: 6rem; width: 6rem;">
+                    </div>
+                    <div class="col-10">
+                      <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat.</p>
+                      <small>Duration: 63:10</small>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="card mt-3 mx-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-2 text-center ">
+                      <img src="https://i0.wp.com/www.moviehousememories.com/wp-content/uploads/2019/05/Scott-Pilgrim-vs-the-World-2010.jpg?resize=1024%2C576&ssl=1" class=" rounded-circle" style="height: 6rem; width: 6rem;">
+                    </div>
+                    <div class="col-10">
+                      <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat.</p>
+                      <small>Duration: 63:10</small>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+              <div class="card mt-3 mx-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-2 text-center ">
+                      <img src="https://i0.wp.com/www.moviehousememories.com/wp-content/uploads/2019/05/Scott-Pilgrim-vs-the-World-2010.jpg?resize=1024%2C576&ssl=1" class=" rounded-circle" style="height: 6rem; width: 6rem;">
+                    </div>
+                    <div class="col-10">
+                      <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat.</p>
+                      <small>Duration: 63:10</small>
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+
+                </div>
+              </div>
+          <!-- end recent episodes row -->
+          
+          <!-- reviews row -->
+            <h4 class="mt-3">What guests have to say:</h4>
+          <div class="container border " style="height: 15rem;  overflow-y: auto;">
+            <div class="row">
+              
+              
+              <div class="card mt-3 mx-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat.</p>
+                      <small class="float-right text-gray-dark">Scott Pilgrim, ~3 Months ago</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-3 mx-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat.</p>
+                      <small class="float-right text-gray-dark">Scott Pilgrim, ~3 Months ago</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card mt-3 mx-2">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-12">
+                      <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                      consequat.</p>
+                      <small class="float-right text-gray-dark">Scott Pilgrim, ~3 Months ago</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                </div>
+              </div>
+          <!-- end reviews row -->
+        </div>
+        
+        <div class="tab-pane" id="guest" role="tabpanel" aria-labelledby="guest-tab">
+          My profile tab contents
         </div>
       </div>
-
-
-
+      
     </div>
-
   </div>
 </div>
-
+</div>
+</div>
 {% endblock %}
