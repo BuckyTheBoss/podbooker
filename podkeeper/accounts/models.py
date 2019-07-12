@@ -19,17 +19,41 @@ class GuestProfile(models.Model):
   user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
   signedup = models.BooleanField(default=False)
   rating = models.CharField(blank=True, default=None, max_length=6, null=True)
+  video_url = models.URLField(blank=True, null=True)
+  desc = models.TextField(blank=True, null=True)
 
 
 class HostProfile(models.Model):
   user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
   signedup = models.BooleanField(default=False)
   rating = models.CharField(blank=True, default=None, max_length=6, null=True)
+  ideal_guest_desc = models.TextField(blank=True, null=True)
+  pub_email = models.EmailField(blank=True, null=True)
 
 class Category(models.Model):
   value = models.CharField(blank=True, default=None, max_length=20, null=True)
   listen_note_id = models.IntegerField(blank=True, default=None)
 
+
+class NotableGuest(models.Model):
+  host = models.ForeignKey(HostProfile, on_delete=models.CASCADE)
+  value = models.TextField(blank=True, null=True)
+
+
+class Award(models.Model):
+  guest = models.ForeignKey(GuestProfile, on_delete=models.CASCADE)
+  value = models.TextField(blank=True, null=True)
+  url = models.URLField(blank=True, null=True)
+
+
+class Book(models.Model):
+  guest = models.ForeignKey(GuestProfile, on_delete=models.CASCADE)
+  value = models.TextField(blank=True, null=True)
+  url = models.URLField(blank=True, null=True)
+
+class TalkingPoint(models.Model):
+  guest = models.ForeignKey(GuestProfile, on_delete=models.CASCADE)
+  value = models.TextField(blank=True, null=True)
 
 @receiver(post_save, sender=CustomUser)
 def create_profiles(sender, created, instance, **kwargs):

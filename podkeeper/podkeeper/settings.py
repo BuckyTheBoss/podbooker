@@ -31,6 +31,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'accounts',
+    'podcasts',
+    'user_messaging',
+    'reviews',
 
     # 3rd party
     'social_django',
