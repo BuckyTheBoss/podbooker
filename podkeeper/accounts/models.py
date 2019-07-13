@@ -32,7 +32,8 @@ class HostProfile(models.Model):
 
 class Category(models.Model):
   value = models.CharField(blank=True, default=None, max_length=20, null=True)
-  listen_note_id = models.IntegerField(blank=True, default=None)
+  listen_note_id = models.IntegerField(blank=True, default=None, null=True)
+  parent_listen_notes_id = models.IntegerField(blank=True, default=None, null=True)
 
 
 class NotableGuest(models.Model):
