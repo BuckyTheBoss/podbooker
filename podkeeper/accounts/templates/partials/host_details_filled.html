@@ -16,10 +16,9 @@
   <h4 class="mt-3">Podcast Categories</h4>
   <div class="row mt-1 mb-3">
     <div class="col-12">
-      <span class="badge badge-pill badge-primary p-2">Business</span>
-      <span class="badge badge-pill badge-primary p-2">Freight</span>
-      <span class="badge badge-pill badge-primary p-2">Comedy</span>
-      
+      {% for category in user.hostprofile.podcast_set.first.category.all %}
+      <span class="badge badge-pill badge-primary p-2">{{category.value}}</span>
+      {% endfor %}      
     </div>
   </div>
   <!-- end podcast categories row -->
