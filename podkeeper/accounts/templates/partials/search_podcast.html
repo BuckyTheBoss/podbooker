@@ -1,0 +1,51 @@
+{% block content %}
+  <div class="row">
+    <div class="card mx-3 my-2" style="width: 100%">
+      <div class="card-body">
+        <div class="input-group mb-3">
+          <form method="POST" style="width: 90%">
+            {% csrf_token %}
+            <input type="text" name='search' class="form-control" placeholder="Search" aria-label="search" aria-describedby="basic-addon2">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit"><i class="fas fa-search fa-2x"></i></button>
+            </div>
+          </form>
+          {% if results %}
+            {% for result in results %}
+              <div class="card my-1" style="width: 90%">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-3">
+                      <img class="img-fluid" src="{{result.thumbnail}}">
+                    </div>
+                    <div class="col-9">
+                      <h5>{{result.title_original}}</h5>
+                      
+                      <p>{{result.description_original | striptags}}</p>
+                      
+                      
+                    </div>
+                  </div>
+
+                </div>
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-3">
+                      <a href="{% url 'populate' result.id %}" class="btn btn-success btn-raised">Claim this Podcast</a>
+
+                    </div>
+                    <div class="col-9">
+                      <span class="small">By clicking this button an email with a confirmation link will be sent to the email address associated with the publisher of this Podcast, without access to this email address you will not be able to claim this podcast as your own.</span>
+
+                    </div>
+                  </div>
+                  
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

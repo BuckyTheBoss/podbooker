@@ -5,6 +5,8 @@ from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from . models import CustomUser
+from podcasts.podcast_api import search_by_owner, populate_podcast_object
+from podcasts.models import Podcast
 # Create your views here.
 
 def signup_error(request, message=None):
@@ -57,27 +59,7 @@ def signup(request):
     user.save()
     if authenticate(username=username, password=password) is None:
       return signup_error(request=request)
-    account_type = request.POST.get('account_type')
-    if account_type == 'host':
-      profile = user.hostprofile
-      profile.signedup = True
-      profile.save()
-    
-    elif account_type == 'guest':
-      profile = user.guestprofile
-      profile.signedup = True
-      profile.save()
-    
-    elif account_type == 'both':
-      profile1 = user.hostprofile
-      profile1.signedup = True
-      profile1.save()
-      profile2 = user.guestprofile
-      profile2.signedup = True
-      profile2.save()
 
-    else:
-      return signup_error(request=request)
     
     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     # send_confirmation_email(request, user)
@@ -114,4 +96,18 @@ def logout_view(request):
   return redirect('login')
 
 def success(request, profile_tab='host'):
-  return render(request, 'profile-page.html', {'profile_tab' : profile_tab})
+  results = None
+  if request.method == "POST":
+    results = search_by_owner(request.POST.get('search'))
+  return render(request, 'profile-page.html', {'profile_tab' : profile_tab, 'results' : results})
+
+
+def populate_hostprofile(request, podcast_id):
+  hostprofile = request.user.hostprofile
+  if request.user.hostprofile.podcast_set.first() == None: 
+    podcast = Podcast.objects.create(host=request.user.hostprofile)
+    podcast.save()
+  hostprofile.signedup = True
+  hostprofile.save()
+  populate_podcast_object(listennotes_id = podcast_id, hostprofile=request.user.hostprofile)
+  return redirect('success')
