@@ -3,7 +3,7 @@
 <ul class="list-group list-group-flush ml-4 border-right border-dark" style="height: 93vh">
   <div class="sidebar-container">
     <li class="list-group-item  {% if tab == 'profile' %}active{% endif %}">
-      <a class="text-dark  text-center" href="#" data-toggle="tooltip" data-placement="right" title="My Profile">
+      <a class="text-dark  text-center" href="{% url 'profile_settings'%}" data-toggle="tooltip" data-placement="right" title="My Profile">
         <i class="far fa-user-circle fa-2x"></i>
       </a>
     </li>

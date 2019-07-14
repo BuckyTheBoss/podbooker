@@ -12,10 +12,10 @@
           <div class="text-center">
             <img class="rounded-circle img-fluid border w-50 h-50 " src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png">
           </div>
-          <p class="medium">Name: {{user.first_name}}</p>
-          <p class="medium">Title: Importer of Foreign Jokes</p>
-          <p class="medium">Business: Acme Inc</p>
-          <p class="medium">Website: acme.inc</p>
+          <p class="medium">Name: {{user.first_name}} {{user.last_name}}</p>
+          <p class="medium">Title: {{user.title}}</p>
+          <p class="medium">Business: {{user.company_name}}</p>
+          <p class="medium">Website: <a href="https://{{user.website}}">{{user.website}}</a></p>
           <div class="social-links d-flex justify-content-between w-75">
             <i class="fab fa-facebook fa-lg"></i>
             <i class="fab fa-linkedin-in fa-lg"></i>

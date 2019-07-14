@@ -12,7 +12,7 @@
           <div class="row">
             <div class="col-12">
               <h3 class="mb-3"><i class="inbassador-logo-blackicon"></i></h3>
-              <h5>Build your brand ambassador program in minutes!</h5>
+              <h5>PodBooker: connecting podcasteers everywhere</h5>
               {% if messages %}
                 {% for message in messages %}
                   <li {% if message.tags %} class="list-group-item list-group-item-danger {{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="form-group text-center pt-3">
-                  Don't have an account yet? <a class="text-secondary" href="#">Signup</a>
+                  Don't have an account yet? <a class="text-secondary" href="{% url 'signup' %}">Signup</a>
                 </div>
               </form>
 

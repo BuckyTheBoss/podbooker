@@ -9,7 +9,7 @@
             <div class="row">
               <div class="col-12">
                 <h3 class="mb-3"></h3>
-                <h5>PodKeeper: connecting podcasteers everywhere</h5>
+                <h5>PodBooker: connecting podcasteers everywhere</h5>
                 {% if messages %}
                   {% for message in messages %}
                     <li {% if message.tags %} class="list-group-item list-group-item-danger {{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -31,7 +31,9 @@
                   <div class="form-group pt-2">
                     <input name="email" type="email" class="form-control form-control-lg" placeholder="Email">
                   </div>
-
+                  <div class="form-group pt-2">
+                    <input name="password" type="password" class="form-control form-control-lg" placeholder="Password">
+                  </div>
                   {% if form.email.errors %}
                     <ol>
                       {% for error in form.email.errors %}
@@ -64,7 +66,7 @@
                     </ul>
                   </div>
                   <div class="form-group text-center pt-3">
-                    Already have an account? <a class="text-secondary" href="#">Login</a>
+                    Already have an account? <a class="text-secondary" href="{% url 'login' %}">Login</a>
                   </div>
                 </form>
               </div>
