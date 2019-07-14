@@ -5,7 +5,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
     {% endblock %}
-    {% include "navbar.html" %}
+    {% include "partials/navbar.html" %}
     <div class="profile-settings-page">
         {% if messages %}
                 {% for message in messages %}
@@ -14,7 +14,7 @@
               {% endif %}
       <div class="row">
         <div class="col-2">
-          {% include "app-sidebar.html" with tab='profile' %}
+          {% include "partials/app-sidebar.html" with tab='profile' %}
         </div>
         <div class="col-10 mt-3 pl-4 pr-5">
           <div class="row mt-5 mb-3   border-bottom">
@@ -36,24 +36,42 @@
             </div>
             <div class="col-10">
               <div class="row">
-                <form method="post">
+                <form method="post" style="width: 80%">
                   {% csrf_token %}
                   
                   <div class="form-group">
-                    <label for="full_name">Full Name</label>
-                    <input type="text" name="full_name" class="form-control" id="full_name" value="{{user.first_name}} {{user.last_name}}">
+                    <label for="first_name">First Name</label>
+                    <input type="text" name="first_name" class="form-control" id="first_name" value="{{user.first_name}}">
                   </div>
+                  <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" name="last_name" class="form-control" id="last_name" value="{{user.last_name}}">
+                  </div>
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" value="{{user.title}}">
+                  </div>
+                  {% if user.hostprofile.signedup %}
+                  <div class="form-group">
+                    <label for="ideal_guest_desc">Ideal Guest Description</label>
+                    <textarea type="text" name="ideal_guest_desc" class="form-control" id="ideal_guest_desc" >{{request.user.hostprofile.ideal_guest_desc}}</textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" name="title" class="form-control" id="title" value="{{user.title}}">
+                  </div>
+                  {% endif %}
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="team_name">Company Name</label>
-                      <input type="text" name="team_name" class="form-control" id="team_name" value="{{user.team_member.team.name}}">
+                      <label for="company_name">Company Name</label>
+                      <input type="text" name="company_name" class="form-control" id="company_name" value="{{user.company_name}}">
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="phone_number">Phone Number</label>
-                      <input type="text" name="phone_number" class="form-control" id="phone_number" value="{{user.team_member.phone_number}}">
+                      <label for="website">Website</label>
+                      <input type="text" name="website" class="form-control" id="website" value="{{user.website}}">
                     </div>
                   </div>
-                  
+                  <button class="btn btn-secondary btn-md btn-raised float-right pl-5 pr-5 text-white">Update</button>
                   <div class="row change-password mt-5">
                     <div class="col-1 text-primary">
                       <i class="material-icons">lock</i>
@@ -73,24 +91,9 @@
                     </div>
                   </div>
                   <div>
-                    <button class="btn btn-secondary btn-md float-right pl-5 pr-5 text-white">Update</button>
+                    <button class="btn btn-secondary btn-md btn-raised float-right pl-5 pr-5 text-white">Update</button>
                   </div>
-                  <div class="row cancel-account mt-5">
-                    <div class="col-1 text-primary">
-                      <i class="material-icons"> close</i>
-                    </div>
-                    <div class="col-11">
-                      <div class="border-bottom">
-                        <h5 class="pb-2">Cancel account</h5>
-                      </div>
-                      <div class="row">
-                        <p class="col-7 small mt-3 text-secondary">We will be sad to see you go! Please leave us some feedback as we strive to improve our service and product.</p>
-                        <div class="col-5">
-                          <button class="btn btn-secondary text-white mt-3 float-right">Cancel Account</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                
                 </form>
               </div>
               
@@ -99,4 +102,10 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript">$(function() {
+      $('textarea').each(function() {
+        $(this).height($(this).prop('scrollHeight'));
+        });
+      });
+    </script>
   {% endblock %}

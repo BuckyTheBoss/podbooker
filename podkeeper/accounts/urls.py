@@ -14,5 +14,6 @@ urlpatterns = [
   path('logout/', views.logout_view, name='logout'),
   path('success', views.success, name="success"),
   path('populate/<podcast_id>', views.populate_hostprofile, name='populate'),
+  path('profile_settings/', views.profile_settings, name='profile_settings'),
 
 ]

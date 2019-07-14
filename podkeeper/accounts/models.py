@@ -13,6 +13,10 @@ class CustomUser(AbstractUser):
       ('guest', 'Guest'),
   )
   active_profile = models.CharField(choices=PROFILE_CHOICES, default='host', max_length=6)
+  company_name = models.CharField(blank=True, default=None, max_length=20, null=True)
+  website = models.URLField(blank=True, null=True)
+  title = models.CharField(blank=True, default=None, max_length=80, null=True)
+
 
 
 class GuestProfile(models.Model):
@@ -29,6 +33,7 @@ class HostProfile(models.Model):
   rating = models.CharField(blank=True, default=None, max_length=6, null=True)
   ideal_guest_desc = models.TextField(blank=True, null=True)
   pub_email = models.EmailField(blank=True, null=True)
+
 
 class Category(models.Model):
   value = models.CharField(blank=True, default=None, max_length=20, null=True)

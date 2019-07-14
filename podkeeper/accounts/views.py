@@ -63,7 +63,7 @@ def signup(request):
     
     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     # send_confirmation_email(request, user)
-    return redirect('signup_confirm')
+    return redirect('profile_settings')
 
 
   return render(request, 'signup.html')
@@ -111,3 +111,46 @@ def populate_hostprofile(request, podcast_id):
   hostprofile.save()
   populate_podcast_object(listennotes_id = podcast_id, hostprofile=request.user.hostprofile)
   return redirect('success')
+
+
+def password_change_error(request, message=None):
+  if message is None:
+    message = 'Sorry, something went wrong, please try again.'
+  
+  messages.add_message(request, messages.ERROR, message)
+  return redirect('password_reset_final')
+
+def profile_settings(request):
+  if request.method == "POST":
+    user = request.user
+
+    user.first_name = request.POST.get('first_name')
+    user.last_name = request.POST.get('last_name')
+    user.company_name = request.POST.get('company_name')
+    user.website = request.POST.get('website')
+    user.title = request.POST.get('title')
+    user.save()
+    hostprofile = user.hostprofile 
+    hostprofile.ideal_guest_desc = request.POST.get('ideal_guest_desc')
+    hostprofile.save()
+    password = request.POST.get('password')
+    new_password = request.POST.get('new_password')
+    if password is '' and new_password is '':
+      return redirect('success')
+    user = authenticate(request, username=user.username, password=password)
+    if user is not None:
+      try: 
+        validate_password(new_password, user=User)
+      except:
+        message = 'Password did not meet minimum security requirements.'
+        messages.add_message(request, messages.ERROR, message)
+        return redirect('profile_settings')
+      user.set_password(new_password)
+      user.save()
+      message = 'Password changed successfully. Please log back in'
+      messages.add_message(request, messages.SUCCESS, message)
+      return redirect('login')
+    elif user is None and password is not None and new_password is not None:
+      message = 'Incorrect password.'
+      messages.add_message(request, messages.SUCCESS, message)
+  return render(request, 'profile_settings_page.html')
