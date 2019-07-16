@@ -157,3 +157,69 @@ def profile_settings(request):
 
 def homepage(request):
   return render(request, 'homepage.html')
+
+
+def activate(request, uidb64, token):
+  try:
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = User.objects.get(pk=uid)
+  except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+    user = None
+
+  if user is not None and account_activation_token.check_token(user, token):
+    
+    return redirect('success')
+  else:
+    messages.add_message(request, messages.ERROR, 'Email address is already in use.')
+    return redirect('signup')
+
+
+def reset_password_step1(request):
+  if request.method == "POST":
+    try:  
+      user = User.objects.get(email=request.POST.get('email'))
+
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+      messages.add_message(request, messages.ERROR, 'Email does not exist in our system.')
+      return redirect('start_password_reset')
+
+    reset_password_email(request, user)
+    return render(request, 'check_your_inbox.html')
+
+  return render(request, 'email_reset_step_one.html')
+
+def reset_password_step2(request, uidb64, token):
+  try:
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = User.objects.get(pk=uid)
+  except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+    user = None
+
+  if user is not None and account_activation_token.check_token(user, token):
+    request.session['user_pk'] = user.pk
+    return redirect('password_reset_final')
+  else:
+    messages.add_message(request, messages.ERROR, 'Seems like something went wrong, try again!')
+    return redirect('start_password_reset')
+
+
+def reset_password_step3(request):
+  if request.method == "POST":
+    password = request.POST.get('password')
+    user = User.objects.get(pk=request.session['user_pk'])
+
+    try: 
+      password == request.POST.get('confirmpassword')
+    except:
+      return password_change_error(request=request, message='Passwords did not match.')
+
+    try: 
+      validate_password(password, user=User)
+    except:
+      return password_change_error(request=request, message='Password did not meet minimum security requirements.')
+
+    user.set_password(password)
+    user.save()
+    return redirect('login')
+
+  return render(request, 'reset_password_final.html')
