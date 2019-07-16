@@ -11,7 +11,8 @@ from mailjet_rest import Client
 def send_confirmation_email(request, user):
   mailjet = Client(
     auth=(settings.MJ_APIKEY_PUBLIC, settings.MJ_APIKEY_PRIVATE),
-    version='v3.1'
+    version='v3.1', 
+    api_url='https://api.mailjet.com/'
   )
 
   current_site = get_current_site(request)
@@ -51,7 +52,8 @@ def send_confirmation_email(request, user):
 def reset_password_email(request, user):
   mailjet = Client(
     auth=(settings.MJ_APIKEY_PUBLIC, settings.MJ_APIKEY_PRIVATE),
-    version='v3.1'
+    version='v3.1', 
+    api_url='https://api.mailjet.com/'
   )
 
   current_site = get_current_site(request)
