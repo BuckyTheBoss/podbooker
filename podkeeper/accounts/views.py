@@ -1,4 +1,4 @@
-
+from . mailers import send_confirmation_email, reset_password_email
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.password_validation import validate_password
@@ -7,6 +7,13 @@ from django.contrib import messages
 from . models import CustomUser
 from podcasts.podcast_api import search_by_owner, populate_podcast_object
 from podcasts.models import Podcast
+from django.contrib.auth.decorators import login_required, user_passes_test
+from . decorators import email_confirmed
+from django.utils.http import urlsafe_base64_decode
+from django.utils.encoding import force_text
+from django.contrib.auth.password_validation import validate_password
+from . tokens import account_activation_token
+
 # Create your views here.
 
 def signup_error(request, message=None):
@@ -62,7 +69,7 @@ def signup(request):
 
     
     login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-    # send_confirmation_email(request, user)
+    send_confirmation_email(request, user)
     return redirect('profile_settings')
 
 
@@ -95,6 +102,8 @@ def logout_view(request):
   logout(request)
   return redirect('login')
 
+@user_passes_test(email_confirmed, login_url='/signup-confirm/', redirect_field_name=None)
+@login_required(login_url='/login/')
 def success(request, profile_tab='host'):
   results = None
   if request.method == "POST":
@@ -102,6 +111,8 @@ def success(request, profile_tab='host'):
   return render(request, 'profile-page.html', {'profile_tab' : profile_tab, 'results' : results})
 
 
+@user_passes_test(email_confirmed, login_url='/signup-confirm/', redirect_field_name=None)
+@login_required(login_url='/login/')
 def populate_hostprofile(request, podcast_id):
   hostprofile = request.user.hostprofile
   if request.user.hostprofile.podcast_set.first() == None: 
@@ -120,6 +131,8 @@ def password_change_error(request, message=None):
   messages.add_message(request, messages.ERROR, message)
   return redirect('password_reset_final')
 
+@user_passes_test(email_confirmed, login_url='/signup-confirm/', redirect_field_name=None)
+@login_required(login_url='/login/')
 def profile_settings(request):
   if request.method == "POST":
     user = request.user
@@ -157,3 +170,70 @@ def profile_settings(request):
 
 def homepage(request):
   return render(request, 'homepage.html')
+
+
+def activate(request, uidb64, token):
+  try:
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = CustomUser.objects.get(pk=uid)
+  except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+    user = None
+
+  if user is not None and account_activation_token.check_token(user, token):
+    user.email_confirmed = True
+    user.save()
+    return redirect('profile_settings')
+  else:
+    messages.add_message(request, messages.ERROR, 'Email address is already in use.')
+    return redirect('signup')
+
+
+def reset_password_step1(request):
+  if request.method == "POST":
+    try:  
+      user = CustomUser.objects.get(email=request.POST.get('email'))
+
+    except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+      messages.add_message(request, messages.ERROR, 'Email does not exist in our system.')
+      return redirect('start_password_reset')
+
+    reset_password_email(request, user)
+    return render(request, 'check_your_inbox.html')
+
+  return render(request, 'email_reset_step_one.html')
+
+def reset_password_step2(request, uidb64, token):
+  try:
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = CustomUser.objects.get(pk=uid)
+  except(TypeError, ValueError, OverflowError, CustomUser.DoesNotExist):
+    user = None
+
+  if user is not None and account_activation_token.check_token(user, token):
+    request.session['user_pk'] = user.pk
+    return redirect('password_reset_final')
+  else:
+    messages.add_message(request, messages.ERROR, 'Seems like something went wrong, try again!')
+    return redirect('start_password_reset')
+
+
+def reset_password_step3(request):
+  if request.method == "POST":
+    password = request.POST.get('password')
+    user = CustomUser.objects.get(pk=request.session['user_pk'])
+
+    try: 
+      password == request.POST.get('confirmpassword')
+    except:
+      return password_change_error(request=request, message='Passwords did not match.')
+
+    try: 
+      validate_password(password, user=User)
+    except:
+      return password_change_error(request=request, message='Password did not meet minimum security requirements.')
+
+    user.set_password(password)
+    user.save()
+    return redirect('login')
+
+  return render(request, 'reset_password_final.html')

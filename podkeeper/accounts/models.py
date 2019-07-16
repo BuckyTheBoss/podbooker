@@ -16,6 +16,7 @@ class CustomUser(AbstractUser):
   company_name = models.CharField(blank=True, default=None, max_length=20, null=True)
   website = models.URLField(blank=True, null=True)
   title = models.CharField(blank=True, default=None, max_length=80, null=True)
+  email_confirmed = models.BooleanField(default=False)
 
 
 

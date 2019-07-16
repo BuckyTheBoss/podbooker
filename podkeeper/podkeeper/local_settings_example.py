@@ -24,3 +24,8 @@ SOCIAL_AUTH_FACEBOOK_SECRET = 'FACEBOOK_SECRET'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email','first_name','last_name' ]
 
 LISTENNOTES_API_KEY = 'api_key'
+
+# MailJet keys
+MJ_APIKEY_PUBLIC  = 'api_key'
+MJ_APIKEY_PRIVATE = 'api_key_private'
+MJ_SENDER_EMAIL = 'sender_email'

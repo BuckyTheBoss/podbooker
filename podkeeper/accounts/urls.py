@@ -16,4 +16,15 @@ urlpatterns = [
   path('populate/<podcast_id>', views.populate_hostprofile, name='populate'),
   path('profile_settings/', views.profile_settings, name='profile_settings'),
 
+    #email activation
+  url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.activate, name='activate'),
+
+  #email password reset
+  url(r'^password-reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        views.reset_password_step2, name='password_reset'),
+
+  path('reset-password', views.reset_password_step1, name='start_password_reset'),
+  path('reset-password/final', views.reset_password_step3, name='password_reset_final'),
+
 ]
