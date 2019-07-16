@@ -89,7 +89,7 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
       login(request, user)
-      return redirect('success')
+      return redirect('index')
     else:
       messages.add_message(request, messages.ERROR, 'Wrong username / password combination.')
       return redirect('login')
@@ -111,7 +111,7 @@ def success(request, profile_tab='host'):
   return render(request, 'profile-page.html', {'profile_tab' : profile_tab, 'results' : results})
 
 
-@user_passes_test(email_confirmed, login_url='/signup-confirm/', redirect_field_name=None)
+@user_passes_test(email_confirmed, login_url='/success/', redirect_field_name=None)
 @login_required(login_url='/login/')
 def populate_hostprofile(request, podcast_id):
   hostprofile = request.user.hostprofile
