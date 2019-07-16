@@ -29,11 +29,11 @@ def send_confirmation_email(request, user):
           }
         ],
         "TemplateID": 914859,
-        "TemplateLanguage": true,
+        "TemplateLanguage": True,
         "Subject": "PodBooker Email Verification",
         "Variables": {
           "first_name": user.first_name,
-          "activation_link": render_to_string('active_account_email.html', {
+          "activation_link": render_to_string('activate_account_email.html', {
           'domain': current_site.domain,
           'uid': urlsafe_base64_encode(force_bytes(user.pk)),
           'token': account_activation_token.make_token(user),
