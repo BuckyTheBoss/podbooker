@@ -18,9 +18,9 @@ def signup_error(request, message=None):
 
 def index(request):
   if request.user.is_authenticated:
-    return redirect('dashboard')
+    return redirect('success')
 
-  return redirect('login')
+  return render(request, 'homepage.html')
 
 def signup(request):
   if request.method == 'POST':
@@ -154,3 +154,6 @@ def profile_settings(request):
       message = 'Incorrect password.'
       messages.add_message(request, messages.SUCCESS, message)
   return render(request, 'profile_settings_page.html')
+
+def homepage(request):
+  return render(request, 'homepage.html')

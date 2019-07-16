@@ -16,7 +16,7 @@ def search_by_owner(name):
 
 def search_by_text(text):
   text = text.replace(' ', '%20')
-  response = requests.get(f"https://listen-api.listennotes.com/api/v2/search?q={text}&only_in=title2%Cdescription&type=podcast",
+  response = requests.get(f"https://listen-api.listennotes.com/api/v2/search?q={text}&only_in=title2%Cdescription2%Cauthor&type=podcast",
   headers={
     "X-ListenAPI-Key": settings.LISTENNOTES_API_KEY,
     },
