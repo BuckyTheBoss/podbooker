@@ -1,11 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Signup{% endblock %}
 {% block content %}
+{% include "partials/navbar-2.html" with hidebuttons=True %}
   <div class="signup-page">
-    <div class="row">
+    <div class="row " >
       <div class="col-5 offset-2">
         <div class="jumbotron transparent d-flex align-items-center">
-          <div class="container">
+          <div class="container" style="height: 100vh;">
             <div class="row">
               <div class="col-12">
                 <h3 class="mb-3"></h3>
@@ -74,7 +75,8 @@
           </div>
         </div>
       </div>
-      <div class="col-4 offset-1">
+      <div class="col-4 offset-1" >
+
       </div>
     </div>
   </div>
