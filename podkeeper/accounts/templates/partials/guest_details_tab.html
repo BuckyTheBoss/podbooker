@@ -1,0 +1,126 @@
+{% block content %}
+  <!-- About me row -->
+  <h4 class="mt-3">About Me</h4>
+  <div class="row mt-3 mx-1">
+    
+    <div id="accordion" style="width: 100%;">
+      <div class="card">
+        <div class="card-header" id="headingOne">
+          <h5 class="mb-0">
+          <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          My Story
+          </button>
+          </h5>
+        </div>
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
+          <div class="card-body">
+            Footage soul-delay skyscraper stimulate spook order-flow camera wonton soup A.I. carbon shanty town girl augmented reality nano-pistol dissident tanto. Plastic tank-traps hotdog tube physical lights render-farm modem silent artisanal. Post-sensory neon gang sunglasses computer tube tattoo garage military-grade paranoid nodal point shrine 3D-printed tanto tank-traps. Realism faded 8-bit drone vinyl uplink engine tiger-team camera girl man tower j-pop cartel. 
+          </div>
+        </div>
+      </div>
+      <div class="card" >
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+          <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          My Elevator Pitch
+          </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+          <div class="card-body">
+            <div class="col-10 offset-1 video-responsive" style="overflow:hidden; padding-bottom:56.25%; position:relative; height:0;">
+              <iframe id="ytplayer" type="text/html" width="100%" height="100%" left="0" top="0" style="position: absolute;" 
+  src="https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com"
+  frameborder="0" allowfullscreen></iframe>
+
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <!-- end podcast basic details row -->
+  
+  <!-- Notable Guests row -->
+  <h4>Books & Area's of expertise</h4>
+  <div class="row" >
+    
+  </div>
+  <!-- end Notable Guests row -->
+  
+  <!-- recent episodes row -->
+  <h4>Featured on</h4>
+  <div class="container border " style="height: 15rem;  overflow-y: auto;">
+    <div class="row">
+      
+      {% for episode in user.hostprofile.podcast_set.first.episode_set.all %}
+        <div class="card mt-3 mx-2">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2 text-center ">
+                <img src="https://i0.wp.com/www.moviehousememories.com/wp-content/uploads/2019/05/Scott-Pilgrim-vs-the-World-2010.jpg?resize=1024%2C576&ssl=1" class=" rounded-circle" style="height: 6rem; width: 6rem;">
+              </div>
+              <div class="col-10">
+                <h5>{{episode.title}}</h5>
+                <p>Episode details: {{episode.description  | striptags}}</p>
+                <small>Duration: {% widthratio episode.length 60 1 %} minutes</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- end recent episodes row -->
+  
+  <!-- reviews row -->
+  <h4 class="mt-3">What Hosts have had to say:</h4>
+  <div class="container border " style="height: 15rem;  overflow-y: auto;">
+    <div class="row">
+      
+      
+      <div class="card mt-3 mx-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat.</p>
+              <small class="float-right text-gray-dark">Scott Pilgrim, ~3 Months ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-3 mx-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat.</p>
+              <small class="float-right text-gray-dark">Scott Pilgrim, ~3 Months ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card mt-3 mx-2">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-12">
+              <p>Episode details: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+              consequat.</p>
+              <small class="float-right text-gray-dark">Scott Pilgrim, ~3 Months ago</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end reviews row -->
+{% endblock %}
