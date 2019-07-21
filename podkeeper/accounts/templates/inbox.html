@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}{{ ambassador.first_name }} {{ ambassador.last_name }}{% endblock %}
+{% block content %}
+  {% include "partials/navbar.html" %}
+  <div class="row mt-1">
+    <div class="col-1">
+      {% include "partials/app-sidebar.html" with tab='messages' %}
+    </div>
+    <div class="col-11">
+      <div class="list-group">
+        {%for chat in chats%}
+          <li>
+            <a href="{% url 'chat_by_id' chat.id %}" class="list-group-item list-group-item-action">
+            {% if request.user == chat.users.last.user %}
+              {{chat.users.first.user.username}}
+            {% else %}
+              {{chat.users.last.user.username}}
+            {% endif %}</a>
+          </li>
+
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

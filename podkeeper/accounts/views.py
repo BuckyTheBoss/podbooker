@@ -13,7 +13,7 @@ from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_text
 from django.contrib.auth.password_validation import validate_password
 from . tokens import account_activation_token
-
+from django.db.models import Q
 # Create your views here.
 
 def signup_error(request, message=None):
@@ -237,3 +237,18 @@ def reset_password_step3(request):
     return redirect('login')
 
   return render(request, 'reset_password_final.html')
+
+
+def search(request):
+  if request.method != 'POST':
+    return render(request, 'search.html')
+
+  text = request.POST.get('search', '')
+  users = CustomUser.objects.filter(
+    Q(first_name__icontains=text) |
+    Q(last_name__icontains=text) )
+  podcasts = Podcast.objects.filter(
+    Q(title__icontains=text) |
+    Q(description__icontains=text) )
+  
+  return render(request, 'search.html', {'users' : users, 'podcasts' : podcasts})

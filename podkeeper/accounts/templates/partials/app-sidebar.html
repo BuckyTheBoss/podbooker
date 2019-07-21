@@ -1,6 +1,6 @@
 {% block content %}
 
-<ul class="list-group list-group-flush ml-4 border-right border-dark" style="height: 93vh">
+<ul class="list-group list-group-flush border-right border-dark" style="height: 93vh">
   <div class="sidebar-container">
     <li class="list-group-item  {% if tab == 'profile' %}active{% endif %}">
       <a class="text-dark  text-center" href="{% url 'profile_settings'%}" data-toggle="tooltip" data-placement="right" title="My Profile">
@@ -9,13 +9,13 @@
     </li>
 
     <li class="list-group-item  {% if tab == 'messages' %}active{% endif %}">
-      <a class="text-dark"  href="#" data-toggle="tooltip" data-placement="right" title="Messages">
+      <a class="text-dark"  href="{% url 'inbox' %}" data-toggle="tooltip" data-placement="right" title="Messages">
         <i class="far fa-envelope fa-2x"></i>
       </a>
     </li>
 
     <li class="list-group-item  {% if tab == 'search' %}active{% endif %}">
-      <a class="text-dark" href="#" data-toggle="tooltip" data-placement="right" title="Search">
+      <a class="text-dark" href="{% url 'search' %}" data-toggle="tooltip" data-placement="right" title="Search">
         <i class="fas fa-search fa-2x"></i>
       </a>
     </li>

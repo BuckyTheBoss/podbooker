@@ -26,5 +26,6 @@ urlpatterns = [
 
   path('reset-password', views.reset_password_step1, name='start_password_reset'),
   path('reset-password/final', views.reset_password_step3, name='password_reset_final'),
+  path('search', views.search, name='search'),
 
 ]
