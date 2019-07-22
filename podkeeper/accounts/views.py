@@ -25,7 +25,7 @@ def signup_error(request, message=None):
 
 def index(request):
   if request.user.is_authenticated:
-    return redirect('success')
+    return redirect('my_profile')
 
   return render(request, 'homepage.html')
 
@@ -104,11 +104,20 @@ def logout_view(request):
 
 @user_passes_test(email_confirmed, login_url='/signup-confirm/', redirect_field_name=None)
 @login_required(login_url='/login/')
-def success(request, profile_tab='host'):
+def my_profile(request, profile_tab='host'):
   results = None
   if request.method == "POST":
     results = search_by_owner(request.POST.get('search'))
-  return render(request, 'profile-page.html', {'profile_tab' : profile_tab, 'results' : results})
+  return render(request, 'my-profile-page.html', {'profile_tab' : profile_tab, 'results' : results})
+
+
+@user_passes_test(email_confirmed, login_url='/signup-confirm/', redirect_field_name=None)
+@login_required(login_url='/login/')
+def view_profile(request,user_id ,profile_tab='host'):
+  profile = CustomUser.objects.get(pk=user_id)
+  if profile == None:
+    return redirect('index')
+  return render(request, 'view-profile.html', {'profile_tab' : profile_tab, 'profile' : profile })
 
 
 @user_passes_test(email_confirmed, login_url='/success/', redirect_field_name=None)

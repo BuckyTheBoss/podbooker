@@ -27,7 +27,7 @@
                 <h5 class="card-title">{{user.first_name}} {{user.last_name}}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{user.title}}</h6>
                 <p class="card-text">{{user.company_name}}</p>
-                <a href="#" class="card-link">View Profile {{user.id}}</a>
+                <a href="{% url 'view_profile' user.id%}" class="card-link">View Profile</a>
               </div>
             </div>
           {% endfor %}

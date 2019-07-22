@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ ambassador.first_name }} {{ ambassador.last_name }}{% endblock %}
+{% block title %}{% endblock %}
 {% block content %}
   {% include "partials/navbar.html" %}
   <div class="row mt-1">
@@ -7,18 +7,25 @@
       {% include "partials/app-sidebar.html" with tab='messages' %}
     </div>
     <div class="col-11">
-      <div class="list-group">
-        {%for chat in chats%}
-          <li>
-            <a href="{% url 'chat_by_id' chat.id %}" class="list-group-item list-group-item-action">
-            {% if request.user == chat.users.last.user %}
-              {{chat.users.first.user.username}}
-            {% else %}
-              {{chat.users.last.user.username}}
-            {% endif %}</a>
-          </li>
+      <div class="row ">
+        <div class="col-2 border-right " style="height: 93vh;">
+          <div class="list-group">
+            {%for chat in chats%}
+              <li>
+                <a href="{% url 'chat_by_id' chat.id %}" class="list-group-item list-group-item-action">
+                {% if request.user == chat.users.last %}
+                  {{chat.users.first.first_name}} {{chat.users.first.last_name}}
+                {% else %}
+                  {{chat.users.last.first_name}} {{chat.users.first.last_name}}
+                {% endif %}</a>
+              </li>
 
-        {% endfor %}
+            {% endfor %}
+          </div>
+        </div>
+        <div class="col-10">
+          Select a chat from the left or find someone to message
+        </div>
       </div>
     </div>
   </div>

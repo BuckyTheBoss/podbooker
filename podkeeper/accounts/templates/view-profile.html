@@ -4,7 +4,7 @@
   {% include "partials/navbar.html" %}
   <div class="row mt-1">
     <div class="col-1">
-      {% include "partials/app-sidebar.html" with tab='board' %}
+      {% include "partials/app-sidebar.html" %}
     </div>
     <div class="col-11">
       <div class="row">
@@ -12,10 +12,10 @@
           <div class="text-center">
             <img class="rounded-circle img-fluid border w-50 h-50 " src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png">
           </div>
-          <p class="medium">Name: {{user.first_name}} {{user.last_name}}</p>
-          <p class="medium">Title: {{user.title}}</p>
-          <p class="medium">Business: {{user.company_name}}</p>
-          <p class="medium">Website: <a href="https://{{user.website}}">{{user.website}}</a></p>
+          <p class="medium">Name: {{profile.first_name}} {{profile.last_name}}</p>
+          <p class="medium">Title: {{profile.title}}</p>
+          <p class="medium">Business: {{profile.company_name}}</p>
+          <p class="medium">Website: <a href="https://{{profile.website}}">{{profile.website}}</a></p>
           <div class="social-links d-flex justify-content-between w-75">
             <i class="fab fa-facebook fa-lg"></i>
             <i class="fab fa-linkedin-in fa-lg"></i>
@@ -35,24 +35,16 @@
               <a class="nav-link {% if profile_tab == 'guest' %} active {% endif %}" href="#guest" data-toggle="tab">My Profile</a>
             </li>
           </ul>
-          <!-- button row -->
-          <div class="row mt-3">
-            <div class=" contact-host-buttons ml-3">
-              <button class="btn btn-primary btn-raised">Pitch to this Host</button>
-              <button class="btn btn-secondary btn-raised">Message Host</button>
-              <button class="btn btn-info btn-raised">Set up a swap</button>
-            </div>
-          </div>
-          <!-- end button row -->
         
           </div>
 
         <div class="tab-content">
+      
           <div class="tab-pane {% if profile_tab == 'host' %} active{% endif %}" id="host" role="tabpanel" aria-labelledby="host-tab">
-            {% if user.hostprofile.signedup %}
-              {% include "partials/host_details_filled.html" %}
+            {% if profile.hostprofile.signedup %}
+              {% include "partials/view_host_details_tab.html" %}
             {% else %}
-              {% include "partials/search_podcast.html"%}
+              <h5>Seems like this user is not a host</h5>
             {% endif %}
         </div>
         

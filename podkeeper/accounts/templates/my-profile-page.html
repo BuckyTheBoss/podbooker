@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}{{ ambassador.first_name }} {{ ambassador.last_name }}{% endblock %}
+{% block content %}
+  {% include "partials/navbar.html" %}
+  <div class="row mt-1">
+    <div class="col-1">
+      {% include "partials/app-sidebar.html" with tab='profile' %}
+    </div>
+    <div class="col-11">
+      <div class="row">
+        <div class="col-2 justify-content-center mt-5">
+          <div class="text-center">
+            <img class="rounded-circle img-fluid border w-50 h-50 " src="http://s3.amazonaws.com/37assets/svn/765-default-avatar.png">
+          </div>
+          <p class="medium">Name: {{user.first_name}} {{user.last_name}}</p>
+          <p class="medium">Title: {{user.title}}</p>
+          <p class="medium">Business: {{user.company_name}}</p>
+          <p class="medium">Website: <a href="https://{{user.website}}">{{user.website}}</a></p>
+          <div class="social-links d-flex justify-content-between w-75">
+            <i class="fab fa-facebook fa-lg"></i>
+            <i class="fab fa-linkedin-in fa-lg"></i>
+            <i class="fab fa-twitter fa-lg"></i>
+            <i class="fab fa-youtube fa-lg"></i>
+            <i class="fab fa-instagram fa-lg"></i>
+          </div>
+        </div>
+        <div class="col-9 card" style="overflow-y: auto; height: 93vh;">
+          <div class="sticky-top bg-light border-bottom border-light rounded">
+            
+          <ul class="nav nav-tabs bg-purple mt-2" style="">
+            <li class="nav-item">
+              <a class="nav-link {% if profile_tab == 'host' %} active{% endif %}" href="#host" data-toggle="tab">My Podcast</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {% if profile_tab == 'guest' %} active {% endif %}" href="#guest" data-toggle="tab">My Profile</a>
+            </li>
+          </ul>
+        
+          </div>
+
+        <div class="tab-content">
+      
+          <div class="tab-pane {% if profile_tab == 'host' %} active{% endif %}" id="host" role="tabpanel" aria-labelledby="host-tab">
+            {% if user.hostprofile.signedup %}
+              {% include "partials/host_details_filled.html" %}
+            {% else %}
+              {% include "partials/search_podcast.html"%}
+            {% endif %}
+        </div>
+        
+        <div class="tab-pane" id="guest" role="tabpanel" aria-labelledby="guest-tab">
+          {% include "partials/guest_details_tab.html"%}
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+</div>
+</div>
+{% endblock %}
